@@ -1,0 +1,133 @@
+<domain type="kvm">
+  <name>win11</name>
+  <uuid>5e8fffdb-738b-4574-b556-2146646bc4f1</uuid>
+  <title>Windows 11</title>
+  <metadata>
+    <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
+      <libosinfo:os id="http://microsoft.com/win/10"/>
+    </libosinfo:libosinfo>
+  </metadata>
+  <memory>8388608</memory>
+  <currentMemory>8388608</currentMemory>
+  <memoryBacking>
+    <hugepages/>
+  </memoryBacking>
+  <vcpu current="12">12</vcpu>
+  <iothreads>2</iothreads>
+  <cputune>
+    <vcpupin vcpu="0" cpuset="4"/>
+    <vcpupin vcpu="1" cpuset="5"/>
+    <vcpupin vcpu="2" cpuset="6"/>
+    <vcpupin vcpu="3" cpuset="7"/>
+    <vcpupin vcpu="4" cpuset="8"/>
+    <vcpupin vcpu="5" cpuset="9"/>
+    <vcpupin vcpu="6" cpuset="10"/>
+    <vcpupin vcpu="7" cpuset="11"/>
+    <vcpupin vcpu="8" cpuset="12"/>
+    <vcpupin vcpu="9" cpuset="13"/>
+    <vcpupin vcpu="10" cpuset="14"/>
+    <vcpupin vcpu="11" cpuset="15"/>
+    <emulatorpin cpuset="0-3"/>
+    <iothreadpin iothread="1" cpuset="0-1"/>
+    <iothreadpin iothread="2" cpuset="2-3"/>
+  </cputune>
+  <os>
+    <type arch="x86_64" machine="q35">hvm</type>
+    <loader readonly="yes" secure="yes" type="pflash">/usr/share/edk2-ovmf/x64/OVMF_CODE.secboot.fd</loader>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <hyperv>
+      <relaxed state="on"/>
+      <vapic state="on"/>
+      <spinlocks state="on" retries="8191"/>
+      <vpindex state="on"/>
+      <synic state="on"/>
+      <stimer state="on"/>
+      <reset state="on"/>
+      <frequencies state="on"/>
+    </hyperv>
+    <vmport state="off"/>
+    <smm state="on"/>
+  </features>
+ <cpu mode="custom" match="exact" check="none">
+    <model fallback="allow">EPYC</model>
+    <topology sockets="1" cores="6" threads="2"/>
+    <feature policy="require" name="topoext"/>
+    <feature policy="require" name="svm"/>
+    <feature policy="require" name="apic"/>
+    <feature policy="require" name="hypervisor"/>
+    <feature policy="require" name="invtsc"/>
+  </cpu>
+  <clock offset="localtime">
+    <timer name="rtc" present="no" tickpolicy="catchup"/>
+    <timer name="pit" present="no" tickpolicy="delay"/>
+    <timer name="hpet" present="no"/>
+    <timer name="kvmclock" present="no"/>
+    <timer name="hypervclock" present="yes"/>
+    <timer name="tsc" present="yes" mode="native"/>
+  </clock>
+  <pm>
+    <suspend-to-mem enabled="no"/>
+    <suspend-to-disk enabled="no"/>
+  </pm>
+  <devices>
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <disk type="block" device="disk">
+      <driver name="qemu" type="raw" cache="none" discard="unmap" io="native"/>
+      <source dev="/dev/nvme0n1p1"/>
+      <target dev="sda" bus="scsi"/>
+      <boot order="1"/>
+    </disk>
+    <disk type="file" device="cdrom">
+      <driver name="qemu" type="raw"/>
+      <source file="/home/oscar/Documents/VM/ISOs/Win11_EnglishInternational_x64v1.iso"/>
+      <target dev="sdb" bus="sata"/>
+      <readonly/>
+      <boot order="2"/>
+    </disk>
+    <controller type="usb" model="qemu-xhci" ports="15"/>
+    <controller type="pci" model="pcie-root"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <controller type="pci" model="pcie-root-port"/>
+    <interface type="bridge">
+      <source bridge="virbr0"/>
+      <mac address="52:54:00:6d:15:aa"/>
+      <model type="e1000e"/>
+    </interface>
+    <console type="pty"/>
+    <channel type="spicevmc">
+      <target type="virtio" name="com.redhat.spice.0"/>
+    </channel>
+    <input type="tablet" bus="usb"/>
+    <graphics type="spice" port="-1" tlsPort="-1" autoport="yes">
+      <image compression="off"/>
+    </graphics>
+    <sound model="ich9"/>
+    <video>
+      <model type="qxl"/>
+    </video>
+    <redirdev bus="usb" type="spicevmc"/>
+    <redirdev bus="usb" type="spicevmc"/>
+    <disk type="file" device="cdrom">
+      <driver name="qemu" type="raw"/>
+      <source file="/home/oscar/Documents/VM/ISOs/virtio-win-0.1.171.iso"/>
+      <target dev="sdc" bus="sata"/>
+      <readonly/>
+    </disk>
+  </devices>
+</domain>
+

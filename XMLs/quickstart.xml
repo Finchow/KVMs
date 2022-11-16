@@ -77,12 +77,12 @@
     <disk type="block" device="disk">
       <driver name="qemu" type="raw" cache="none" discard="unmap" io="native"/>
       <source dev="/dev/nvme0n1p1"/>
-      <target dev="sda" bus="scsi"/>
+      <target dev="sda" bus="sata"/>
       <boot order="1"/>
     </disk>
     <disk type="file" device="cdrom">
       <driver name="qemu" type="raw"/>
-      <source file="/home/oscar/Documents/VM/ISOs/Win11_EnglishInternational_x64v1.iso"/>
+      <source file="/home/oscar/Documents/KVM/ISOs/Win11_22H2_EnglishInternational_x64v1.iso"/>
       <target dev="sdb" bus="sata"/>
       <readonly/>
       <boot order="2"/>
@@ -106,9 +106,8 @@
     <interface type="bridge">
       <source bridge="virbr0"/>
       <mac address="52:54:00:6d:15:aa"/>
-      <model type="e1000e"/>
+      <model type="virtio"/>
     </interface>
-    <console type="pty"/>
     <channel type="spicevmc">
       <target type="virtio" name="com.redhat.spice.0"/>
     </channel>
@@ -116,7 +115,6 @@
     <graphics type="spice" port="-1" tlsPort="-1" autoport="yes">
       <image compression="off"/>
     </graphics>
-    <sound model="ich9"/>
     <video>
       <model type="qxl"/>
     </video>
@@ -124,10 +122,12 @@
     <redirdev bus="usb" type="spicevmc"/>
     <disk type="file" device="cdrom">
       <driver name="qemu" type="raw"/>
-      <source file="/home/oscar/Documents/VM/ISOs/virtio-win-0.1.171.iso"/>
+      <source file="/home/oscar/Documents/KVM/ISOs/virtio-win-0.1.217.iso"/>
       <target dev="sdc" bus="sata"/>
       <readonly/>
     </disk>
+    <tpm model="tpm-crb">
+      <backend type="emulator"/>
+    </tpm>
   </devices>
 </domain>
-
